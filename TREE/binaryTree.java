@@ -85,4 +85,15 @@ public class binaryTree{
         boolean right =find(nn.right,item);
         return left || right;
     }
+    public int ht(){
+        return ht(this.root);
+    }
+    private int ht(Node node){
+        if(node==null){
+            return 0;
+        }
+        int lh=ht(node.left);
+        int rh=ht(node.right);
+        return Math.max(lh,rh)+1;
+    }
 }
