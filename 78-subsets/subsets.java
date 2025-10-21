@@ -1,21 +1,20 @@
 class Solution {
-    public void subseq(int idx, List<List<Integer>> ans, List<Integer> ds, int[] nums, int n) {
-        if (idx == n) {
-            ans.add(new ArrayList<>(ds));
+    public List<List<Integer>> subsets(int[] nums) {
+        List<List<Integer>> ans=new ArrayList<>();
+        List<Integer> ll=new ArrayList<>();
+        helper(nums,0,ll,ans);
+        return ans;
+        
+    }
+    public void helper(int[] arr,int idx,List<Integer> ll,List<List<Integer>> ans){
+        if(idx==arr.length){
+            ans.add(new ArrayList<>(ll));
             return;
         }
-        // Include
-        ds.add(nums[idx]);
-        subseq(idx + 1, ans, ds, nums, n);
-        
-        // Exclude
-        ds.remove(ds.size() - 1);
-        subseq(idx + 1, ans, ds, nums, n);
-    }
+        ll.add(arr[idx]);
+        helper(arr,idx+1,ll,ans);
+        ll.remove(ll.size()-1);
+        helper(arr,idx+1,ll,ans);
 
-    public List<List<Integer>> subsets(int[] nums) {
-        List<List<Integer>> ans = new ArrayList<>();
-        subseq(0, ans, new ArrayList<>(), nums, nums.length);
-        return ans;
     }
 }
