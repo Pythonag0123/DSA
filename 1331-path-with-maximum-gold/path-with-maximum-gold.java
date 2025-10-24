@@ -1,41 +1,43 @@
 class Solution {
-    int maxGold = 0; 
-
     public int getMaximumGold(int[][] grid) {
-        int rows = grid.length;
-        int cols = grid[0].length;
+        int m = grid.length;
+        int n = grid[0].length;
+        int maxGold = 0;
 
-        
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                if (grid[i][j] != 0) {
-                    dfs(grid, i, j, 0);
+        // Helper function for DFS
+        class Helper {
+            public int dfs(int row, int col) {
+                if (row < 0 || row >= m || col < 0 || col >= n || grid[row][col] == 0) {
+                    return 0;
+                }
+
+                int currentGold = grid[row][col];
+                grid[row][col] = 0; // Mark the cell as visited by setting it to 0
+
+                // Recursively explore all four directions
+                int d = dfs(row + 1, col);
+                int u = dfs(row - 1, col);
+                int r = dfs(row, col + 1);
+                int l = dfs(row, col - 1);
+
+                // Restore the cell value
+                grid[row][col] = currentGold;
+
+                return currentGold + Math.max(Math.max(d, u), Math.max(r, l));
+            }
+        }
+
+        Helper helper = new Helper();
+
+        // Iterate over all cells in the grid
+        for (int row = 0; row < m; ++row) {
+            for (int col = 0; col < n; ++col) {
+                if (grid[row][col] > 0) {
+                    maxGold = Math.max(maxGold, helper.dfs(row, col));
                 }
             }
         }
+
         return maxGold;
-    }
-
-    public void dfs(int[][] grid, int i, int j, int currGold) {
-        
-        if (i < 0 || j < 0 || i >= grid.length || j >= grid[0].length || grid[i][j] == 0)
-            return;
-
-        
-        int gold = grid[i][j];
-        currGold += gold;
-        maxGold = Math.max(maxGold, currGold);
-
-        
-        grid[i][j] = 0;
-
-        
-        dfs(grid, i + 1, j, currGold);
-        dfs(grid, i - 1, j, currGold);
-        dfs(grid, i, j + 1, currGold);
-        dfs(grid, i, j - 1, currGold);
-
-        
-        grid[i][j] = gold;
     }
 }
