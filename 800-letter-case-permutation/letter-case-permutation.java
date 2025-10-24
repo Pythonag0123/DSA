@@ -1,28 +1,26 @@
-class Solution {
-    public List<String> letterCasePermutation(String s) {
-        List<String> ans = new ArrayList<>();
-        helper(s, 0, "", ans);
-        return ans;
-    }
+import java.util.*;
 
-    public void helper(String s, int idx, String current, List<String> ans) {
-        
+class Solution {
+    List<String> ans = new ArrayList<>();
+
+    void permutation(String s, int idx, String str) {
         if (idx == s.length()) {
-            ans.add(current);
+            ans.add(str);
             return;
         }
 
         char ch = s.charAt(idx);
 
         if (Character.isDigit(ch)) {
-            
-            helper(s, idx + 1, current + ch, ans);
+            permutation(s, idx + 1, str + ch);
         } else {
-            
-            helper(s, idx + 1, current + Character.toLowerCase(ch), ans);
-            helper(s, idx + 1, current + Character.toUpperCase(ch), ans);
+            permutation(s, idx + 1, str + Character.toLowerCase(ch));
+            permutation(s, idx + 1, str + Character.toUpperCase(ch));
         }
     }
-}
 
-        
+    public List<String> letterCasePermutation(String s) {
+        permutation(s, 0, "");
+        return ans;
+    }
+}
