@@ -1,23 +1,22 @@
 class Solution {
-    int count = 0;
-
+    int count=0;
     public int countArrangement(int n) {
-        boolean[] used = new boolean[n + 1];
-        beautiful(n, 1, used);
+        int num[] = new int[n+1];
+        helper(num,1,n);
         return count;
     }
 
-    public void beautiful(int n, int pos, boolean[] used) {
-        if (pos > n) {
+    public void helper(int num[], int val, int n){
+        if(val>n){
             count++;
             return;
         }
 
-        for (int i = 1; i <= n; i++) {
-            if (!used[i] && (i % pos == 0 || pos % i == 0)) {
-                used[i] = true;
-                beautiful(n, pos + 1, used);
-                used[i] = false;
+        for(int i=1;i<=n;i++){
+            if(num[i]==0 && (i%val==0 || val%i==0)){
+                num[i]=1;
+                helper(num,val+1,n);
+                num[i]=0;
             }
         }
     }
