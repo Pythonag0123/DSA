@@ -1,46 +1,48 @@
 class Solution {
     public int[] searchRange(int[] nums, int target) {
-        int[] firstLast = new int[2];
-        firstLast[0] = SearchFirst(nums, target);
-        firstLast[1] = SearchLast(nums, target);
-        return firstLast;
+        int[] ans = new int[2];
+        ans[0] = firstPos(nums, target);
+        ans[1] = lastPos(nums, target);
+        return ans;
     }
 
-    public int SearchFirst(int[] arr, int target) {
-        int n = arr.length;
-        int lo = 0;
-        int hi = n - 1;
+    public int firstPos(int[] nums, int target) {
+        int lo = 0, hi = nums.length - 1;
         int ans = -1;
+
         while (lo <= hi) {
             int mid = lo + (hi - lo) / 2;
-            if (arr[mid] >= target) {
-                hi = mid - 1;
-            } else {
+
+            if (nums[mid] == target) {
+                ans = mid;        
+                hi = mid - 1;     
+            } 
+            else if (nums[mid] < target) {
                 lo = mid + 1;
-            }
-            if (arr[mid] == target) {
-                ans = mid;
+            } 
+            else {
                 hi = mid - 1;
             }
         }
         return ans;
     }
 
-    public int SearchLast(int[] arr, int target) {
-        int n = arr.length;
-        int lo = 0;
-        int hi = n - 1;
+    public int lastPos(int[] nums, int target) {
+        int lo = 0, hi = nums.length - 1;
         int ans = -1;
+
         while (lo <= hi) {
             int mid = lo + (hi - lo) / 2;
-            if (arr[mid] <= target) {
+
+            if (nums[mid] == target) {
+                ans = mid;        
+                lo = mid + 1;    
+            } 
+            else if (nums[mid] < target) {
                 lo = mid + 1;
-            } else {
+            } 
+            else {
                 hi = mid - 1;
-            }
-            if (arr[mid] == target) {
-                ans = mid;
-                lo = mid + 1;
             }
         }
         return ans;
