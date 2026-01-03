@@ -1,45 +1,24 @@
 class Solution {
     public int longestCommonSubsequence(String text1, String text2) {
-
-        int n = text1.length();
-        int m = text2.length();
-
-        int[][] dp = new int[n][m];
-
-        // initialize dp with -1 (meaning: not computed)
-        for(int i = 0; i < n; i++){
-            for(int j = 0; j < m; j++){
-                dp[i][j] = -1;
-            }
+        int[][] dp=new int[text1.length()][text2.length()];
+        for(int i=0;i<text1.length();i++){
+            Arrays.fill(dp[i],-1);
         }
-
-        return ans(text1, text2, 0, 0, dp);
+        return lcs(text1,text2,dp,0,0);
+        
     }
-
-    public static int ans(String text1, String text2, int i, int j, int[][] dp){
-
-        // base case: reached end of any string
-        if(i == text1.length() || j == text2.length()){
-            return 0;
-        }
-
-        // already computed? return from dp
-        if(dp[i][j] != -1){
-            return dp[i][j];
-        }
-
-        // Option 1: characters match → take 1 + next dp
-        if(text1.charAt(i) == text2.charAt(j)){
-            dp[i][j] = 1 + ans(text1, text2, i + 1, j + 1, dp);
+    public int lcs(String text1,String text2,int[][] dp,int i,int j){
+        if(i>=text1.length()||j>=text2.length()) return 0;
+        if(dp[i][j]!=-1) return dp[i][j];
+        int ans=0;
+        if(text1.charAt(i)==text2.charAt(j)){
+            ans=1+lcs(text1,text2,dp,i+1,j+1);
         }
         else{
-            // Option 2: characters don't match → explore both possibilities
-            int moveI = ans(text1, text2, i + 1, j, dp);
-            int moveJ = ans(text1, text2, i, j + 1, dp);
-
-            dp[i][j] = Math.max(moveI, moveJ);
+            int f=lcs(text1,text2,dp,i+1,j);
+            int s=lcs(text1,text2,dp,i,j+1);
+            ans+=Math.max(f,s);
         }
-
-        return dp[i][j];
+        return dp[i][j]=ans;
     }
 }
