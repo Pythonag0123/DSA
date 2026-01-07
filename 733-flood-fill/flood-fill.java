@@ -4,19 +4,18 @@ class Solution {
             return image;
         }
         int oldcolor=image[sr][sc];
-        dfs(image,sr,sc,oldcolor,color);
+        dfs(image,sr,sc,color,oldcolor);
         return image;
-
         
     }
-    public void dfs(int[][] image,int x,int y,int oldcolor,int newcolor){
-        if(x<0||y<0||x>=image.length||y>=image[0].length||image[x][y]!=oldcolor){
+    public void dfs(int[][] grid,int i,int j,int color,int oldcolor){
+        if(i<0||j<0||i>=grid.length||j>=grid[0].length||grid[i][j]!=oldcolor){
             return;
         }
-        image[x][y]=newcolor;
-        dfs(image,x+1,y,oldcolor,newcolor);
-        dfs(image,x-1,y,oldcolor,newcolor);
-        dfs(image,x,y+1,oldcolor,newcolor);
-        dfs(image,x,y-1,oldcolor,newcolor);
+        grid[i][j]=color;
+        dfs(grid,i-1,j,color,oldcolor);
+        dfs(grid,i+1,j,color,oldcolor);
+        dfs(grid,i,j-1,color,oldcolor);
+        dfs(grid,i,j+1,color,oldcolor);
     }
 }
