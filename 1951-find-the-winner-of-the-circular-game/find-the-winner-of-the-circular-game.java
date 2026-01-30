@@ -5,12 +5,11 @@ class Solution {
             q.add(i);
         }
         while(q.size()>1){
-            for(int i=0;i<k-1;i++){
-                q.add(q.remove());
+            for(int i=1;i<k;i++){
+                q.add(q.poll());
             }
-            q.remove();
+            q.poll();
         }
-        return q.peek();
-        
+        return q.peek();       
     }
 }
