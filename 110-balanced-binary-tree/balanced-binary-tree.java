@@ -14,26 +14,23 @@
  * }
  */
 class Solution {
-
     public boolean isBalanced(TreeNode root) {
-        return heightDiff(root) != -1;
+        return check(root) != -1;
     }
 
-    public int heightDiff(TreeNode root) {
-        if (root == null) {
-            return 0;
+    private int check(TreeNode node) {
+        if (node == null) return 0;
+
+        int left_h = check(node.left);
+        if (left_h == - 1) return -1;
+
+        int right_h = check(node.right);
+        if (right_h == -1) return -1;
+
+        if (Math.abs(left_h - right_h) > 1) {
+            return -1;
         }
 
-        int hleft = heightDiff(root.left);
-        if (hleft == -1)
-            return -1;
-        int hright = heightDiff(root.right);
-        if (hright == -1)
-            return -1;
-
-        if (Math.abs(hleft - hright) > 1) {
-            return -1;
-        }
-        return 1 + Math.max(hleft, hright);
+        return Math.max(left_h, right_h) + 1;
     }
 }
